@@ -156,7 +156,7 @@ func GetStringMapStringSlice(key string) map[string][]string {
 }
 
 func Forget(key string) {
-	Cache.Store.Forget((key))
+	Cache.Store.Forget(key)
 }
 
 func Forever(key string, value string) {

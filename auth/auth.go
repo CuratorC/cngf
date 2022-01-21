@@ -3,8 +3,8 @@ package auth
 
 import (
 	"errors"
+	"github.com/curatorc/cngf/auth/user"
 	"github.com/curatorc/cngf/logger"
-	"gohub/app/models/user"
 
 	"github.com/gin-gonic/gin"
 )
