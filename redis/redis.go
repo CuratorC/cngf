@@ -4,7 +4,6 @@ package redis
 import (
 	"context"
 	"github.com/curatorc/cngf/logger"
-	"sync"
 	"time"
 
 	"github.com/go-redis/redis/v8"
@@ -14,19 +13,6 @@ import (
 type Client struct {
 	Client  *redis.Client
 	Context context.Context
-}
-
-// once 确保全局的 Redis 对象只实例一次
-var once sync.Once
-
-// Redis 全局 Redis, 使用 db 1
-var Redis *Client
-
-// Connect 连接 redis 数据库，设置全局的 Redis 对象
-func Connect(address string, username string, password string, db int) {
-	once.Do(func() {
-		Redis = New(address, username, password, db)
-	})
 }
 
 // New 创建一个新的 redis 连接

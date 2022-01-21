@@ -8,7 +8,6 @@ import (
 	"github.com/curatorc/cngf/helpers"
 	"github.com/curatorc/cngf/logger"
 	"github.com/curatorc/cngf/mail"
-	"github.com/curatorc/cngf/redis"
 	"github.com/curatorc/cngf/sms"
 	"strings"
 	"sync"
@@ -26,7 +25,6 @@ func New() *VerifyCode {
 	once.Do(func() {
 		internalVerifyCode = &VerifyCode{
 			Store: &RedisStore{
-				RedisClient: redis.Redis,
 				// 增加前缀保持数据库整洁，出问题调试时也方便
 				KeyPrefix: config.GetString("app.name") + ":verifycode:",
 			},

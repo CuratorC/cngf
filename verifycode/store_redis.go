@@ -2,15 +2,14 @@ package verifycode
 
 import (
 	"github.com/curatorc/cngf/app"
+	"github.com/curatorc/cngf/cache"
 	"github.com/curatorc/cngf/config"
-	"github.com/curatorc/cngf/redis"
 	"time"
 )
 
 // RedisStore 实现 verifycode.Store interface
 type RedisStore struct {
-	RedisClient *redis.Client
-	KeyPrefix   string
+	KeyPrefix string
 }
 
 // Set 实现 verifycode.Store interface 的 Set 方法
@@ -22,15 +21,16 @@ func (s *RedisStore) Set(key string, value string) bool {
 		ExpireTime = time.Minute * time.Duration(config.GetInt64("verifycode.debug_expire_time"))
 	}
 
-	return s.RedisClient.Set(s.KeyPrefix+key, value, ExpireTime)
+	cache.Set(s.KeyPrefix+key, value, ExpireTime)
+	return true
 }
 
 // Get 实现 verifycode.Store interface 的 Get 方法
 func (s *RedisStore) Get(key string, clear bool) (value string) {
 	key = s.KeyPrefix + key
-	val := s.RedisClient.Get(key)
+	val := cache.GetString(key)
 	if clear {
-		s.RedisClient.Del(key)
+		cache.Forget(key)
 	}
 	return val
 }
