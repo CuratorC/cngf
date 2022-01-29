@@ -22,17 +22,9 @@ type content struct {
 }
 
 func NewFileStore() (fs *FileStore) {
-	dir := "storage/cache/"
-	err := os.MkdirAll(dir, os.ModePerm)
-	if err != nil {
-		logger.ErrorString("make_model", "s.MkdirAll", err.Error())
-		return
-	}
-	fs.FilePath = dir + "cache.json"
-	fs.Store = make(map[string]content)
-	err = json.Unmarshal(file.Get(fs.FilePath), &fs.Store)
+	fs = &FileStore{}
+	err := fs.IsAlive()
 	logger.LogIf(err)
-
 	return fs
 }
 
@@ -111,11 +103,9 @@ func (s *FileStore) IsAlive() error {
 		logger.ErrorString("make_model", "s.MkdirAll", err.Error())
 		return err
 	}
-	fs := &FileStore{
-		Store:    make(map[string]content),
-		FilePath: dir + "cache.json",
-	}
-	err = json.Unmarshal(file.Get(fs.FilePath), &fs.Store)
+	s.Store = make(map[string]content)
+	s.FilePath = dir + "cache.json"
+	err = json.Unmarshal(file.Get(s.FilePath), &s.Store)
 	logger.LogIf(err)
 	return err
 }
