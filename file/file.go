@@ -18,6 +18,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Get 获取文件数据
+func Get(path string) (content []byte) {
+	content, err := ioutil.ReadFile(path)
+	logger.LogIf(err)
+	return
+}
+
 // Put 将数据存入文件
 func Put(data []byte, to string) error {
 	err := ioutil.WriteFile(to, data, 0644)
