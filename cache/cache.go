@@ -73,7 +73,7 @@ func GetObject(key string, wanted interface{}) {
 	}
 }
 
-func RememberObject(key string, expireTime time.Duration, wanted interface{}, fu func() interface{}) {
+func RememberObject(key string, expireTime time.Duration, wanted interface{}, fu func()) {
 
 	// 取数据
 	val := Cache.Store.Get(key)
@@ -82,7 +82,7 @@ func RememberObject(key string, expireTime time.Duration, wanted interface{}, fu
 		logger.LogIf(err)
 	} else {
 		// 执行查询
-		wanted = fu()
+		fu()
 		if helpers.Empty(wanted) {
 			return
 		}
