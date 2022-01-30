@@ -33,6 +33,10 @@ func (s *FileStore) Set(key string, value string, expireTime time.Duration) {
 		Value:     value,
 		ExpiredAt: app.TimenowInTimezone().Add(expireTime),
 	}
+	str, err := json.Marshal(s.Store)
+	logger.LogIf(err)
+	err = file.Put(str, s.FilePath)
+	logger.LogIf(err)
 }
 
 func (s *FileStore) Get(key string) (value string) {
