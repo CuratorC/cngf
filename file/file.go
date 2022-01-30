@@ -19,9 +19,9 @@ import (
 )
 
 // Get 获取文件数据
-func Get(path string) (content []byte) {
+func Get(path string, defaultValue string) (content []byte) {
 	if !Exists(path) {
-		content = make([]byte, 0)
+		content = []byte(defaultValue)
 		err := Put(content, path)
 		logger.LogIf(err)
 		return

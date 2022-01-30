@@ -105,12 +105,8 @@ func (s *FileStore) IsAlive() error {
 	}
 	s.Store = make(map[string]content)
 	s.FilePath = dir + "cache.json"
-	content := file.Get(s.FilePath)
-	if content == nil {
-		content = []byte("[]")
-	}
 	logger.DebugString("cache:isAlive", "content", string(content))
-	err = json.Unmarshal(content, &s.Store)
+	err = json.Unmarshal(file.Get(s.FilePath, "[]"), &s.Store)
 	logger.LogIf(err)
 	return err
 }
