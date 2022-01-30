@@ -109,6 +109,7 @@ func (s *FileStore) IsAlive() error {
 	if content == nil {
 		content = []byte("[]")
 	}
+	logger.DebugString("cache:isAlive", "content", string(content))
 	err = json.Unmarshal(content, &s.Store)
 	logger.LogIf(err)
 	return err
