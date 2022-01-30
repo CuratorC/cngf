@@ -29,6 +29,7 @@ func InitWithCacheStore(store Store) {
 func Set(key string, obj interface{}, expireTime time.Duration) {
 	b, err := json.Marshal(&obj)
 	logger.LogIf(err)
+	logger.DebugString("cache", "set", string(b))
 	Cache.Store.Set(key, string(b), expireTime)
 }
 
