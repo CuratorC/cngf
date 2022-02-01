@@ -17,8 +17,8 @@ type FileStore struct {
 }
 
 type content struct {
-	Value     string
-	ExpiredAt time.Time
+	Value     string    `json:"value,omitempty"`
+	ExpiredAt time.Time `json:"expired_at"`
 }
 
 func NewFileStore() (fs *FileStore) {

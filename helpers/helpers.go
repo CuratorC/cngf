@@ -3,6 +3,7 @@ package helpers
 import (
 	"crypto/rand"
 	"fmt"
+	"github.com/spf13/cast"
 	"io"
 	mathrand "math/rand"
 	"reflect"
@@ -72,4 +73,16 @@ func FirstElement(args []string) string {
 		return args[0]
 	}
 	return ""
+}
+
+func ValueInSlice(value interface{}, slice []interface{}) bool {
+	if Empty(slice) {
+		return false
+	}
+	key := cast.ToString(value)
+	m := cast.ToStringMap(slice)
+	if _, ok := m[key]; !ok {
+		return false
+	}
+	return true
 }
