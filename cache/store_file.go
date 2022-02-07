@@ -5,6 +5,7 @@ import (
 	"github.com/curatorc/cngf/app"
 	"github.com/curatorc/cngf/file"
 	"github.com/curatorc/cngf/logger"
+	"github.com/curatorc/cngf/timer"
 	"github.com/spf13/cast"
 	"os"
 	"time"
@@ -17,8 +18,8 @@ type FileStore struct {
 }
 
 type content struct {
-	Value     string    `json:"value,omitempty"`
-	ExpiredAt time.Time `json:"expired_at"`
+	Value     string     `json:"value,omitempty"`
+	ExpiredAt timer.Time `json:"expired_at"`
 }
 
 func NewFileStore() (fs *FileStore) {
@@ -31,7 +32,7 @@ func NewFileStore() (fs *FileStore) {
 func (s *FileStore) Set(key string, value string, expireTime time.Duration) {
 	s.Store[key] = content{
 		Value:     value,
-		ExpiredAt: app.TimenowInTimezone().Add(expireTime),
+		ExpiredAt: app.Now().Add(expireTime),
 	}
 	str, err := json.Marshal(s.Store)
 	logger.LogIf(err)
@@ -41,7 +42,7 @@ func (s *FileStore) Set(key string, value string, expireTime time.Duration) {
 
 func (s *FileStore) Get(key string) (value string) {
 	if content, ok := s.Store[key]; ok {
-		if content.ExpiredAt.After(app.TimenowInTimezone()) {
+		if content.ExpiredAt.After(app.Now()) {
 			value = content.Value
 		}
 	}

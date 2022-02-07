@@ -1,8 +1,6 @@
 package timer
 
 import (
-	"encoding/json"
-	"testing"
 	"time"
 )
 
@@ -30,23 +28,21 @@ func (t Time) String() string {
 	return time.Time(t).Format(timeFormat)
 }
 
-type Person struct {
-	Id       int64  `json:"id"`
-	Name     string `json:"name"`
-	Birthday Time   `json:"birthday"`
+// Add returns the time t+d.
+func (t Time) Add(duration time.Duration) Time {
+	return Time(time.Time(t).Add(duration))
 }
 
-func TestTimeJson(t *testing.T) {
-	now := Time(time.Now())
-	t.Log(now)
-	src := `{"id":5,"name":"xiaoming","birthday":"2016-06-30 16:09:51"}`
-	p := new(Person)
-	err := json.Unmarshal([]byte(src), p)
-	if err != nil {
-		t.Fatal(err)
-	}
-	t.Log(p)
-	t.Log(time.Time(p.Birthday))
-	js, _ := json.Marshal(p)
-	t.Log(string(js))
+// After reports whether the time instant t is after u.
+func (t Time) After(u Time) bool {
+	return time.Time(t).After(time.Time(u))
+}
+
+// Before reports whether the time instant t is before u.
+func (t Time) Before(u Time) bool {
+	return time.Time(t).Before(time.Time(u))
+}
+
+func (t Time) Format(layout string) string {
+	return time.Time(t).Format(layout)
 }
