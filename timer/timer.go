@@ -2,6 +2,7 @@ package timer
 
 import (
 	"github.com/curatorc/cngf/config"
+	"github.com/curatorc/cngf/logger"
 	"time"
 )
 
@@ -62,5 +63,7 @@ func (t Time) Unix() int64 {
 // IsZero reports whether t represents the zero time instant,
 // January 1, year 1, 00:00:00 UTC.
 func (t Time) IsZero() bool {
+	logger.InfoJSON("timer", "Time", time.Time(t))
+	logger.InfoJSON("timer", "isZero", time.Time(t).IsZero())
 	return time.Time(t).IsZero()
 }
