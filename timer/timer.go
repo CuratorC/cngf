@@ -8,12 +8,12 @@ import (
 type Time time.Time
 
 const (
-	timeFormat = "2006-01-02 15:04:05"
+	timeFormat = `2006-01-02 15:04:05`
 )
 
 func (t *Time) UnmarshalJSON(data []byte) (err error) {
 	chinaTimezone, _ := time.LoadLocation(config.GetString("app.timezone"))
-	now, err := time.ParseInLocation(timeFormat, string(data), chinaTimezone)
+	now, err := time.ParseInLocation(`"`+timeFormat+`"`, string(data), chinaTimezone)
 	*t = Time(now)
 	return
 }
