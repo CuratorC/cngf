@@ -13,7 +13,7 @@ const (
 
 func (t *Time) UnmarshalJSON(data []byte) (err error) {
 	chinaTimezone, _ := time.LoadLocation(config.GetString("app.timezone"))
-	now, err := time.ParseInLocation(`"`+timeFormat+`"`, string(data), chinaTimezone)
+	now, err := time.ParseInLocation(timeFormat, string(data), chinaTimezone)
 	*t = Time(now)
 	return
 }
