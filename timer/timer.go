@@ -46,3 +46,7 @@ func (t Time) Before(u Time) bool {
 func (t Time) Format(layout string) string {
 	return time.Time(t).Format(layout)
 }
+
+func (t Time) Unix() int64 {
+	return time.Time(t).Unix()
+}

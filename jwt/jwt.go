@@ -114,7 +114,7 @@ func (jwt *JWT) RefreshToken(c *gin.Context) (string, error) {
 	claims := token.Claims.(*CustomClaims)
 
 	// 5. 检查是否过了『最大允许刷新的时间』
-	x := app.TimenowInTimezone().Add(-jwt.MaxRefresh).Unix()
+	x := app.Now().Add(-jwt.MaxRefresh).Unix()
 	if claims.IssuedAt > x {
 		// 修改过期时间
 		claims.StandardClaims.ExpiresAt = jwt.expireAtTime()
@@ -134,10 +134,10 @@ func (jwt *JWT) IssueToken(userID string, userName string) string {
 		userName,
 		expireAtTime,
 		jwtpkg.StandardClaims{
-			NotBefore: app.TimenowInTimezone().Unix(), // 签名生效时间
-			IssuedAt:  app.TimenowInTimezone().Unix(), // 首次签名时间（后续刷新 Token 不会更新）
-			ExpiresAt: expireAtTime,                   // 签名过期时间
-			Issuer:    config.GetString("app.name"),   // 签名颁发者
+			NotBefore: app.Now().Unix(),             // 签名生效时间
+			IssuedAt:  app.Now().Unix(),             // 首次签名时间（后续刷新 Token 不会更新）
+			ExpiresAt: expireAtTime,                 // 签名过期时间
+			Issuer:    config.GetString("app.name"), // 签名颁发者
 		},
 	}
 
@@ -160,7 +160,7 @@ func (jwt *JWT) createToken(claims CustomClaims) (string, error) {
 
 // expireAtTime 过期时间
 func (jwt *JWT) expireAtTime() int64 {
-	timenow := app.TimenowInTimezone()
+	timenow := app.Now()
 
 	var expireTime int64
 	if config.GetBool("app.debug") {
