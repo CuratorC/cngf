@@ -47,6 +47,18 @@ func (t Time) Format(layout string) string {
 	return time.Time(t).Format(layout)
 }
 
+// Unix returns t as a Unix time, the number of seconds elapsed
+// since January 1, 1970 UTC. The result does not depend on the
+// location associated with t.
+// Unix-like operating systems often record time as a 32-bit
+// count of seconds, but since the method here returns a 64-bit
+// value it is valid for billions of years into the past or future.
 func (t Time) Unix() int64 {
 	return time.Time(t).Unix()
+}
+
+// IsZero reports whether t represents the zero time instant,
+// January 1, year 1, 00:00:00 UTC.
+func (t Time) IsZero() bool {
+	return time.Time(t).IsZero()
 }
