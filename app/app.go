@@ -3,6 +3,7 @@ package app
 
 import (
 	"github.com/curatorc/cngf/config"
+	"github.com/curatorc/cngf/timer"
 	"time"
 )
 
@@ -17,10 +18,10 @@ func IsTesting() bool {
 	return config.Get("app.env") == "testing"
 }
 
-// TimenowInTimezone 获取当前时间，支持时区
-func TimenowInTimezone() time.Time {
+// Now 获取当前时间，支持时区
+func Now() timer.Time {
 	chinaTimezone, _ := time.LoadLocation(config.GetString("app.timezone"))
-	return time.Now().In(chinaTimezone)
+	return timer.Time(time.Now().In(chinaTimezone))
 }
 
 // URL 传参 path 拼接站点的 URL
