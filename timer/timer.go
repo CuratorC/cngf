@@ -1,6 +1,7 @@
 package timer
 
 import (
+	"github.com/curatorc/cngf/config"
 	"time"
 )
 
@@ -11,7 +12,8 @@ const (
 )
 
 func (t *Time) UnmarshalJSON(data []byte) (err error) {
-	now, err := time.ParseInLocation(`"`+timeFormat+`"`, string(data), time.Local)
+	chinaTimezone, _ := time.LoadLocation(config.GetString("app.timezone"))
+	now, err := time.ParseInLocation(`"`+timeFormat+`"`, string(data), chinaTimezone)
 	*t = Time(now)
 	return
 }
