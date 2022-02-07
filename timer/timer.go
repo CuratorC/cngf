@@ -1,4 +1,4 @@
-package jsontest
+package timer
 
 import (
 	"time"
